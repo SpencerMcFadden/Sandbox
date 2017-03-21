@@ -8,7 +8,7 @@ config = {
     'author': 'Spencer McFadden',
     'url': 'https://github.com/SpencerMcFadden/Sandbox/tree/master/Fibonacci',
     'download_url': 'https://github.com/SpencerMcFadden/Sandbox/tree/master/Fibonacci',
-    'author_email': 'spencer.v.mcfadden@gmail.com',
+    'author_email': '',
     'version': '0.1',
     'install_requires': ['nose'],
     'packages': ['fibFinder'],
