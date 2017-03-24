@@ -7,4 +7,4 @@ data = json.load(urllib2.urlopen(url))
 front = data["data"]["children"]
 
 for i in xrange(0, len(front)-1):
-    front[i]["data"]["title"].encode("utf-8")
+    print(front[i]["data"]["title"].encode("utf-8").replace("TIL","")+"\n")
