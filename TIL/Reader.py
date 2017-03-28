@@ -8,7 +8,7 @@ data = json.load(urllib2.urlopen(url))
 front = data["data"]["children"]
 posts = []
 
-conditions = {"TIL": "", "TIL,": "", "-": "", "Til": "", "til": ""}
+conditions = {"TIL": "", "TIL,": "", "-": "", "Til": "", "til": "", "TIL:": ""}
 conditions = dict((re.escape(k), v) for k, v in conditions.iteritems())
 pattern = re.compile("|".join(conditions.keys()))
 
