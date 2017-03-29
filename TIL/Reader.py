@@ -8,7 +8,8 @@ data = json.load(urllib2.urlopen(url))
 front = data["data"]["children"]
 posts = []
 
-conditions = {"TIL": "", "TIL,": "", "-": "", "Til": "", "til": "", "TIL:": ""}
+conditions = {"TIL": "", "TIL,": "", "Til": "", "til": "", "TIL:": "", "Til:": "",\
+                "til:": "", "-": ""}
 conditions = dict((re.escape(k), v) for k, v in conditions.iteritems())
 pattern = re.compile("|".join(conditions.keys()))
 
@@ -22,4 +23,6 @@ for i in xrange(0, len(front)-1):
     posts.append(title+"\n")
 
 for text in posts:
-    print(text)
+    with open("reader.txt", "a") as output:
+        output.write(text)
+        output.close()
