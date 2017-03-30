@@ -22,7 +22,7 @@ for i in xrange(0, len(front)-1):
     title = title.strip().capitalize()
     posts.append(title+"\n")
 
-for text in posts:
-    with open("reader.txt", "a") as output:
+
+with open("reader.txt", "a") as output:
+    for text in posts:
         output.write(text)
-        output.close()
