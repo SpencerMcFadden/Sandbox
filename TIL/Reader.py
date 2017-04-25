@@ -1,3 +1,5 @@
+# Currently written/functioning in Python 2
+
 import json
 import urllib2
 import re
