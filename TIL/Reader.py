@@ -18,7 +18,7 @@ removalPattern = re.compile("|".join(conditionsToRemove.keys()))
 
 def findFacts(apiFile):
     """Read titles of posts from url, remove unecessary words/word combinations"""
-    for i in xrange(0, len(front)-1):
+    for i in xrange(0, len(childrenAsPosts)-1):
         titleOfPost = apiFile[i]["data"]["title"].encode("utf-8")
         titleOfPost = removalPattern.sub(lambda m: conditionsToRemove[re.escape(m.group(0))], titleOfPost)
         temp = titleOfPost.split(" ", 2)
