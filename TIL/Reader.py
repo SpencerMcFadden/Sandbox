@@ -1,4 +1,4 @@
-# Currently written/functioning in Python 2
+# Currently written/functioning in Python 2.7
 
 import json
 import urllib2
@@ -7,37 +7,40 @@ import os.path
 
 url = "http://www.reddit.com/r/todayilearned/new.json?sort=new"
 
-data = json.load(urllib2.urlopen(url))
-front = data["data"]["children"]
+websiteJsonData = json.load(urllib2.urlopen(url))
+childrenAsPosts = websiteJsonData["data"]["children"]
 posts = []
 
-conditions = {"TIL": "", "TIL,": "", "Til": "", "til": "", "TIL:": "",\
+conditionsToRemove = {"TIL": "", "TIL,": "", "Til": "", "til": "", "TIL:": "",\
                 "Til:": "", "til:": "", "-": ""}
-conditions = dict((re.escape(k), v) for k, v in conditions.iteritems())
-pattern = re.compile("|".join(conditions.keys()))
+conditionsToRemove = dict((re.escape(k), v) for k, v in conditionsToRemove.iteritems())
+removalPattern = re.compile("|".join(conditionsToRemove.keys()))
 
 def findFacts(apiFile):
+    """Read titles of posts from url, remove unecessary words/word combinations"""
     for i in xrange(0, len(front)-1):
-        title = apiFile[i]["data"]["title"].encode("utf-8")
-        title = pattern.sub(lambda m: conditions[re.escape(m.group(0))], title)
-        temp = title.split(" ", 2)
+        titleOfPost = apiFile[i]["data"]["title"].encode("utf-8")
+        titleOfPost = removalPattern.sub(lambda m: conditionsToRemove[re.escape(m.group(0))], titleOfPost)
+        temp = titleOfPost.split(" ", 2)
         if temp[1] == "that":
-            title = title.replace("that", "", 1)
-        title = title.strip().capitalize()
-        posts.append(title+"\n\n")
+            titleOfPost = titleOfPost.replace("that", "", 1)
+        titleOfPost = titleOfPost.strip().capitalize()
+        posts.append(titleOfPost+"\n\n")
     return posts
 
-def removeDuplicates(foundList):
-    tempList = []
-    for text in foundList:
-        output = open("reader.txt", "r")
-        if text in output.read(os.path.getsize("reader.txt")):
-            tempList.append(text)
-    output.close()
-    foundList = [line for line in foundList if line not in tempList]
-    return foundList
+def removeDuplicates(endList):
+    """Check the existing output file to filter out any duplicates from the list of posts"""
+    removalList = []
+    for text in endList:
+        redFile = open("reader.txt", "r")
+        if text in redFile.read(os.path.getsize("reader.txt")):
+            removalList.append(text)
+    redFile.close()
+    endList = [line for line in endList if line not in removalList]
+    return endList
 
 def textFile(factList):
+    """Using the filtered list, write the results to a text file"""
     with open("reader.txt", "a") as output:
         for text in factList:
             output.write(text)
